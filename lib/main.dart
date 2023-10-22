@@ -1,5 +1,5 @@
 import 'package:bama_fruit/app/settings/theme_colors.dart';
-import 'package:bama_fruit/app/views/register_view.dart';
+import 'package:bama_fruit/app/views/home_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,6 +21,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: ThemeColors.primary),
           useMaterial3: true,
         ),
-        home: RegisterView());
+        home: HomeView());
   }
 }

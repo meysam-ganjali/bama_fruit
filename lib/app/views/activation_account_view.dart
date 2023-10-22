@@ -1,5 +1,6 @@
 import 'package:bama_fruit/app/models/register/register_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
+import 'package:bama_fruit/app/views/home_view.dart';
 import 'package:bama_fruit/data/repositories/register_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class ActivationAccountView extends StatelessWidget {
   final TextEditingController _fullname = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _activaCode = TextEditingController();
-  ActivationAccountView({required this.activateCode,required this.userName});
+  ActivationAccountView({super.key, required this.activateCode, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,13 @@ class ActivationAccountView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 25,),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   Text(activateCode),
-                  SizedBox(height: 25,),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   TextField(
                     controller: _fullname,
                     decoration: InputDecoration(
@@ -53,7 +58,7 @@ class ActivationAccountView extends StatelessWidget {
                         hintText: "نام و نام خانوادگی",
                         hintTextDirection: TextDirection.rtl),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextField(
@@ -75,10 +80,9 @@ class ActivationAccountView extends StatelessWidget {
                         hintText: "کلمه عبور",
                         hintTextDirection: TextDirection.rtl),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                 
                   TextField(
                     controller: _activaCode,
                     decoration: InputDecoration(
@@ -98,12 +102,39 @@ class ActivationAccountView extends StatelessWidget {
                         hintText: "کد پیامک شده را وارد کنید",
                         hintTextDirection: TextDirection.rtl),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton(onPressed: () {
-                    registerRepository.activateAccount(registerEntity: RegisterEntity(username: userName, fullname: _fullname.text, password: _password.text, active_code: _activaCode.text));
-                  }, child: Text("فعال سازی حساب"))
+                  ElevatedButton(
+                      onPressed: () {
+                        registerRepository
+                            .activateAccount(
+                          registerEntity: RegisterEntity(
+                              username: userName,
+                              fullname: _fullname.text,
+                              password: _password.text,
+                              active_code: _activaCode.text),
+                        )
+                            .then((value) {
+                          if (value == "success") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>const HomeView(),
+                                ));
+                          } else {
+                            return SnackBar(
+                              content: Text(
+                                value,
+                                style: const TextStyle(
+                                    fontSize: 18, color: ThemeColors.light),
+                              ),
+                              backgroundColor: ThemeColors.red,
+                            );
+                          }
+                        });
+                      },
+                      child: const Text("فعال سازی حساب"))
                 ],
               )),
         ),
