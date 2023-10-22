@@ -1,9 +1,9 @@
 import 'package:bama_fruit/app/settings/theme_colors.dart';
-import 'package:bama_fruit/app/views/home_view.dart';
+import 'package:bama_fruit/app/views/register_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() {
+
   runApp(const MyApp());
 }
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'sans',
@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: ThemeColors.primary),
           useMaterial3: true,
         ),
-        home: HomeView()
-        );
+        home: RegisterView());
   }
 }

@@ -35,6 +35,14 @@ class Login extends StatelessWidget {
                   SizedBox(
                     height: height / 5,
                   ),
+                    Center(
+                    child: Text("ورود",style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: ThemeColors.black
+                    ),),
+                  ),
+                  SizedBox(height: 15,),
                   TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(

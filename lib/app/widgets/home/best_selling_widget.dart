@@ -71,17 +71,14 @@ class BestSellingProductWidget extends StatelessWidget {
                     child: Container(
                       width: width * .5,
                       decoration: BoxDecoration(
-                        color: ThemeColors.light,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: ThemeColors.onPrimary,
-                            blurRadius: 2,
-                            blurStyle: BlurStyle.normal
-
-                          )
-                        ]
-                      ),
+                          color: ThemeColors.light,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: ThemeColors.onPrimary,
+                                blurRadius: 2,
+                                blurStyle: BlurStyle.normal)
+                          ]),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

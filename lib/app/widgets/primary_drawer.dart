@@ -1,4 +1,5 @@
 import 'package:bama_fruit/app/settings/theme_colors.dart';
+import 'package:bama_fruit/app/views/register_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -152,26 +153,29 @@ class PrimaryDrawer extends StatelessWidget {
         ),
               Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.exit_to_app,
-                size: 35,
-                shadows: [
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 5,
-                  )
-                ],
-              ),
-              SizedBox(
-                width: width / 20,
-              ),
-              Text(
-                "خروج",
-                style: TextStyle(fontSize: 18),
-              ),
-            ],
+          child: InkWell(
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterView(),)),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.exit_to_app,
+                  size: 35,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black,
+                      blurRadius: 5,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: width / 20,
+                ),
+                Text(
+                  "ثبت نام",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
           ),
         ),
       ],
