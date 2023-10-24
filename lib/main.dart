@@ -21,6 +21,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: ThemeColors.primary),
           useMaterial3: true,
         ),
-        home: HomeView());
+        home:const HomeView());
   }
 }

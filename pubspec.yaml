@@ -42,7 +42,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   intl: ^0.18.1
   salomon_bottom_bar: ^3.3.2
-  flutter_verification_code: ^1.1.7
+  number_inc_dec: ^0.8.0
 
 dev_dependencies:
   flutter_test:

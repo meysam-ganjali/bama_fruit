@@ -1,11 +1,13 @@
-
+import 'package:bama_fruit/app/models/login/login_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
 import 'package:bama_fruit/app/views/home_view.dart';
+import 'package:bama_fruit/data/repositories/login_repository.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
-  const Login({super.key});
-
+  Login({super.key});
+  TextEditingController _userName = TextEditingController();
+  TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -35,15 +37,20 @@ class Login extends StatelessWidget {
                   SizedBox(
                     height: height / 5,
                   ),
-                    Center(
-                    child: Text("ورود",style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: ThemeColors.black
-                    ),),
+                  const Center(
+                    child: Text(
+                      "ورود",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: ThemeColors.black),
+                    ),
                   ),
-                  SizedBox(height: 15,),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   TextField(
+                    controller: _userName,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
@@ -67,10 +74,12 @@ class Login extends StatelessWidget {
                         hintText: "شماره همراه خود را وارد کنید",
                         hintTextDirection: TextDirection.rtl),
                   ),
-                 const SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextField(
+                    controller: _password,
+                    obscureText: true,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
@@ -94,7 +103,7 @@ class Login extends StatelessWidget {
                         hintText: "کلمه عبور",
                         hintTextDirection: TextDirection.rtl),
                   ),
-                 const SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Center(
@@ -106,15 +115,45 @@ class Login extends StatelessWidget {
                             Navigator.pop(context);
                           },
                           icon: const Icon(Icons.home),
-                          label:const Text(
+                          label: const Text(
                             "بازگشت",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                         ElevatedButton.icon(
-                          onPressed: () {},
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            LoginParameter loginParam = LoginParameter(
+                                userName: _userName.text,
+                                passwprd: _password.text);
+                            loginRepository
+                                .loginUser(param: loginParam)
+                                .then((value) {
+                              if (value.err == "401") {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    content: const Text('حساب کاربری یافت نشد'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'OK'),
+                                        child: const Text('تلاش مجدد'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const HomeView(),
+                                    ));
+                              }
+                            });
+                          },
                           icon: const Icon(Icons.login),
-                          label:const Text(
+                          label: const Text(
                             "ورود به برنامه",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),

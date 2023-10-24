@@ -3,9 +3,14 @@ import 'package:bama_fruit/data/api/app_exception.dart';
 import 'package:dio/dio.dart';
 
 mixin HttpResponseValidator{
-  validateResponse(Response response) {
+ AppException validateResponse(Response response) {
     if (response.statusCode != 200) {
-      throw AppException();
+      return AppException();
     }
+    else if(response.statusCode == 401)
+    {
+    return  AppException(message: "Invalid_Login");
+    }
+    return AppException(message: "OK");
   }
 }

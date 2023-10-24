@@ -1,5 +1,6 @@
 import 'package:bama_fruit/app/models/home/product_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
+import 'package:bama_fruit/app/views/product_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -64,7 +65,8 @@ class BestSellingProductWidget extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    //TODO Navigate To Shop With Category Id
+                    //TODO Navigate To Product View
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProductView(),));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),

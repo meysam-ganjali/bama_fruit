@@ -155,14 +155,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_verification_code:
-    dependency: "direct main"
-    description:
-      name: flutter_verification_code
-      sha256: "75f520c884c08eb44d91920f6f62f2546fd5b56f32d0ba199e1d72044bd575b3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.7"
   http:
     dependency: transitive
     description:
@@ -219,6 +211,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  number_inc_dec:
+    dependency: "direct main"
+    description:
+      name: number_inc_dec
+      sha256: af0a35f923a2e67532bc6579e8fbf0093be8ea185e48bb543db4e3e355017ec5
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.0"
   octo_image:
     dependency: transitive
     description:

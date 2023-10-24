@@ -53,8 +53,7 @@ class HomeRemoteDataSource with HttpResponseValidator implements IHomeDataSource
       categoryList.add(CategoryEntity.fromJson(element));
     }
 
-    home.background_advantages = BackgroundAdvantagesEntity.fromJson(
-        response.data["background_advantages"]);
+    home.background_advantages = BackgroundAdvantagesEntity.fromJson(response.data["background_advantages"]);
     home.competitive_advantages = competitiveAdvantages;
     home.mainslider = mainSlider;
     home.centerslider = centerSlider;

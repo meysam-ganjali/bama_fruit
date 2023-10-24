@@ -1,6 +1,7 @@
 import 'package:bama_fruit/app/controllers/home_controller.dart';
 import 'package:bama_fruit/app/models/home/home_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
+import 'package:bama_fruit/app/views/cart_view.dart';
 import 'package:bama_fruit/app/views/login.dart';
 import 'package:bama_fruit/app/widgets/home/banner_widget.dart';
 import 'package:bama_fruit/app/widgets/home/best_selling_widget.dart';
@@ -179,10 +180,26 @@ class _HomeViewState extends State<HomeView> {
 
                     /// Likes
                     SalomonBottomBarItem(
-                      icon: const Icon(Icons.shopping_basket),
-                      title: const Text(
-                        "سبد خرید",
-                        style: TextStyle(fontFamily: 'sans'),
+                      icon: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CartView(),
+                            )),
+                        child: const Icon(
+                          Icons.shopping_basket,
+                        ),
+                      ),
+                      title: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CartView(),
+                            )),
+                        child: const Text(
+                          "سبد خرید",
+                          style: TextStyle(fontFamily: 'sans'),
+                        ),
                       ),
                       selectedColor: Colors.orange,
                     ),
