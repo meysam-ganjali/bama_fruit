@@ -1,7 +1,11 @@
+import 'package:bama_fruit/app/models/user/user_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
 import 'package:bama_fruit/app/views/home_view.dart';
 import 'package:bama_fruit/app/views/login.dart';
+import 'package:bama_fruit/app/views/products_view.dart';
 import 'package:bama_fruit/app/widgets/primary_app_bar.dart';
+import 'package:bama_fruit/data/repositories/auth_repository.dart';
+import 'package:bama_fruit/data/repositories/cart_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
@@ -16,6 +20,24 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   var _currentIndex = 2;
+  bool isLoading = true;
+  int totalPrice = 0;
+  var carts = <UserCartEntity>[];
+    @override
+  void initState() {
+    getUserCart();
+    super.initState();
+  }
+  getUserCart()async{
+    var res = await cartRepository.getCart();
+   setState(() {
+      for (var element in res) {
+        carts.add(element);
+        totalPrice += int.parse(element.priceAfterDiscount);
+        }
+      isLoading=false;
+   });
+  }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -24,18 +46,61 @@ class _CartViewState extends State<CartView> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(55),
+          preferredSize: const Size.fromHeight(55),
           child: PerimaryAppBar(width: width),
         ),
-        body: SingleChildScrollView(
+        body: AuthRepository.authChangeNotifier.value == null 
+        ? const Center(child: Text("به حساب کاربری خود وارد شوید"),)
+        :SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
+            child:
+            isLoading
+            ? const CircularProgressIndicator()
+            : Column(
               children: [
-                _cartItem(width),
-                _cartItem(width),
-                _cartItem(width),
+               if (carts.isEmpty) Container(
+                margin: const EdgeInsets.only(top: 15),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(.5),borderRadius: BorderRadius.circular(10)
+                ),
+                child:const Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Text("سبد خالی است"),
+                )) 
+               else ...carts.map((element) => _cartItem(width, element),),
+                Container(
+                  width: width,
+                  decoration: BoxDecoration(
+                    color: ThemeColors.light,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      children: [
+                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                           const Text("مبلغ قابل پرداخت :",style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: ThemeColors.black
+                            )),
+                            Text("${totalPrice}  تومان",style:const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: ThemeColors.red
+                            ),),
+                          ],
+                        ),
+                       const SizedBox(height: 15,),
+                        ElevatedButton.icon(onPressed: (){}, icon: const Icon(Icons.money), label: const Text("نهایی کردن سفارش"))
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -87,7 +152,7 @@ class _CartViewState extends State<CartView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomeView(),
+                            builder: (context) => const HomeView(),
                           ));
                     },
                     child: const Icon(Icons.home)),
@@ -96,7 +161,7 @@ class _CartViewState extends State<CartView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeView(),
+                          builder: (context) => const HomeView(),
                         ));
                   },
                   child: const Text(
@@ -113,7 +178,7 @@ class _CartViewState extends State<CartView> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CartView(),
+                        builder: (context) => const CartView(),
                       )),
                   child: const Icon(
                     Icons.shopping_basket,
@@ -123,7 +188,7 @@ class _CartViewState extends State<CartView> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CartView(),
+                        builder: (context) => const CartView(),
                       )),
                   child: const Text(
                     "سبد خرید",
@@ -133,9 +198,30 @@ class _CartViewState extends State<CartView> {
                 selectedColor: Colors.orange,
               ),
 
-              /// Search
-
-              /// Profile
+             SalomonBottomBarItem(
+                      icon: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductsView(),
+                            )),
+                        child: const Icon(
+                          Icons.shopify_outlined,
+                        ),
+                      ),
+                      title: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>const ProductsView(),
+                            )),
+                        child: const Text(
+                          "فروشگاه",
+                          style: TextStyle(fontFamily: 'sans'),
+                        ),
+                      ),
+                      selectedColor: ThemeColors.primary,
+                    )
             ],
           ),
         ),
@@ -143,10 +229,10 @@ class _CartViewState extends State<CartView> {
     );
   }
 
-  Container _cartItem(double width) {
+  Container _cartItem(double width,UserCartEntity userCart) {
     return Container(
       width: width,
-      margin: EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
           color: ThemeColors.light, borderRadius: BorderRadius.circular(8)),
       child: Column(
@@ -154,20 +240,25 @@ class _CartViewState extends State<CartView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image.asset(
-                'assets/images/logo5.png',
-                width: 65,
-                height: 65,
+              Image.network(
+                userCart.image,
+                width: 70,
+                height: 70,
               ),
               const SizedBox(
                 width: 10,
               ),
-              Text(
-                "دراگون فروت استوایی",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              Expanded(
+                child:  Text(
+                  userCart.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                ),
               ),
+              IconButton(onPressed: (){
+                //Delete item
+              }, icon:const Icon(CupertinoIcons.trash,color: Colors.redAccent,))
             ],
           ),
           Padding(
@@ -177,7 +268,7 @@ class _CartViewState extends State<CartView> {
               children: [
                 Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: width * .2,
                       child: NumberInputWithIncrementDecrement(
                         min: .5,
@@ -190,19 +281,20 @@ class _CartViewState extends State<CartView> {
                           border: InputBorder.none,
                         ),
                         widgetContainerDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                             border: Border.all(
                               color: ThemeColors.primary,
                               width: 2,
                             )),
-                        incIconDecoration: BoxDecoration(
+                        incIconDecoration: const BoxDecoration(
                           color: ThemeColors.primary,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                           ),
                         ),
                         separateIcons: true,
-                        decIconDecoration: BoxDecoration(
+                        decIconDecoration: const BoxDecoration(
                           color: ThemeColors.primary,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
@@ -218,17 +310,17 @@ class _CartViewState extends State<CartView> {
                         buttonArrangement: ButtonArrangement.leftEnd,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text("کیلو گرم")
+                     Text(userCart.productUnit)
                   ],
                 ),
-                Text(
-                  "120,000 تومان",
+                 Text(
+                  "${userCart.priceAfterDiscount} تومان",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                 )
               ],
             ),

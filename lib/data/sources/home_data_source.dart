@@ -4,7 +4,7 @@ import 'package:bama_fruit/app/models/home/center_slider_entity.dart';
 import 'package:bama_fruit/app/models/home/competitive_advantages_entity.dart';
 import 'package:bama_fruit/app/models/home/home_entity.dart';
 import 'package:bama_fruit/app/models/home/main_slider_entity.dart';
-import 'package:bama_fruit/app/models/home/product_entity.dart';
+import 'package:bama_fruit/app/models/product/product_entity.dart';
 import 'package:bama_fruit/data/api/validator_response.dart';
 import 'package:dio/dio.dart';
 

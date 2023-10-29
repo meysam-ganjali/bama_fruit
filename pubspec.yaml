@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.18.1
   salomon_bottom_bar: ^3.3.2
   number_inc_dec: ^0.8.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

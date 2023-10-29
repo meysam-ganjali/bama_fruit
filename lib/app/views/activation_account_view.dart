@@ -1,7 +1,7 @@
 import 'package:bama_fruit/app/models/register/register_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
 import 'package:bama_fruit/app/views/home_view.dart';
-import 'package:bama_fruit/data/repositories/register_repository.dart';
+import 'package:bama_fruit/data/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 class ActivationAccountView extends StatelessWidget {
@@ -107,9 +107,9 @@ class ActivationAccountView extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        registerRepository
-                            .activateAccount(
-                          registerEntity: RegisterEntity(
+                        authRepository
+                            .activeAccount(
+                           RegisterEntity(
                               username: userName,
                               fullname: _fullname.text,
                               password: _password.text,

@@ -1,8 +1,10 @@
 import 'package:bama_fruit/app/controllers/home_controller.dart';
 import 'package:bama_fruit/app/models/home/home_entity.dart';
+import 'package:bama_fruit/app/models/user/user_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
 import 'package:bama_fruit/app/views/cart_view.dart';
 import 'package:bama_fruit/app/views/login.dart';
+import 'package:bama_fruit/app/views/products_view.dart';
 import 'package:bama_fruit/app/widgets/home/banner_widget.dart';
 import 'package:bama_fruit/app/widgets/home/best_selling_widget.dart';
 import 'package:bama_fruit/app/widgets/home/category_list_widget.dart';
@@ -11,6 +13,7 @@ import 'package:bama_fruit/app/widgets/home/daily_offer_product.dart';
 import 'package:bama_fruit/app/widgets/home/main_slider_widget.dart';
 import 'package:bama_fruit/app/widgets/primary_app_bar.dart';
 import 'package:bama_fruit/app/widgets/primary_drawer.dart';
+import 'package:bama_fruit/data/repositories/auth_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -27,7 +30,6 @@ class _HomeViewState extends State<HomeView> {
   bool isLoading = true;
   var homeFeatureList = HomeEntity();
   var _currentIndex = 1;
-
   @override
   void initState() {
     getAllFeatures();
@@ -123,9 +125,9 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 ),
         ),
-        drawer: Drawer(
-          child: PrimaryDrawer(height: height, width: width),
-        ),
+        drawer: !isLoading ? Drawer(
+          child: PrimaryDrawer(height: height, width: width,),
+        ):const Drawer(child: CircularProgressIndicator(),),
         bottomNavigationBar: !isLoading
             ? Container(
                 decoration: const BoxDecoration(boxShadow: [
@@ -177,14 +179,12 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       selectedColor: Colors.purple,
                     ),
-
-                    /// Likes
                     SalomonBottomBarItem(
                       icon: InkWell(
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CartView(),
+                              builder: (context) => const CartView(),
                             )),
                         child: const Icon(
                           Icons.shopping_basket,
@@ -194,7 +194,7 @@ class _HomeViewState extends State<HomeView> {
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CartView(),
+                              builder: (context) => const CartView(),
                             )),
                         child: const Text(
                           "سبد خرید",
@@ -203,14 +203,35 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       selectedColor: Colors.orange,
                     ),
-
-                    /// Search
-
-                    /// Profile
+                    SalomonBottomBarItem(
+                      icon: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductsView(),
+                            )),
+                        child: const Icon(
+                          Icons.shopify_outlined,
+                        ),
+                      ),
+                      title: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductsView(),
+                            )),
+                        child: const Text(
+                          "فروشگاه",
+                          style: TextStyle(fontFamily: 'sans'),
+                        ),
+                      ),
+                      selectedColor: ThemeColors.primary,
+                    ),
                   ],
                 ),
               )
             : null,
+          
       ),
     );
   }

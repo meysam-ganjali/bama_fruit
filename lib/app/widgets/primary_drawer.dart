@@ -1,18 +1,16 @@
+
 import 'package:bama_fruit/app/settings/theme_colors.dart';
-import 'package:bama_fruit/app/views/register_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryDrawer extends StatelessWidget {
-  const PrimaryDrawer({
-    super.key,
-    required this.height,
-    required this.width,
-  });
+  const PrimaryDrawer(
+      {super.key,
+      required this.height,
+      required this.width});
 
   final double height;
   final double width;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,30 +20,29 @@ class PrimaryDrawer extends StatelessWidget {
           width: width,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image:
-                      Image.asset("assets/images/drawerHead.jpg").image,
+                  image: Image.asset("assets/images/drawerHead.jpg").image,
                   fit: BoxFit.fill)),
           child: Container(
-            decoration: BoxDecoration(color: ThemeColors.black),
+            decoration: const BoxDecoration(color: ThemeColors.black),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     CupertinoIcons.person,
                     color: ThemeColors.light,
                     size: 55,
                   ),
                   Text(
-                    "سلام میثم",
-                    style: TextStyle(
+                    "سلام ",
+                    style: const TextStyle(
                         color: ThemeColors.light,
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                   ),
                   Text(
-                    "09181510000",
-                    style: TextStyle(
+                    "userEntity.userName",
+                    style: const TextStyle(
                         color: ThemeColors.light,
                         fontWeight: FontWeight.w600,
                         fontSize: 15),
@@ -59,7 +56,7 @@ class PrimaryDrawer extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 CupertinoIcons.shopping_cart,
                 size: 35,
                 shadows: [
@@ -72,7 +69,7 @@ class PrimaryDrawer extends StatelessWidget {
               SizedBox(
                 width: width / 20,
               ),
-              Text(
+              const Text(
                 "لیست سفارشات",
                 style: TextStyle(fontSize: 18),
               )
@@ -83,7 +80,7 @@ class PrimaryDrawer extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.share_rounded,
                 size: 35,
                 shadows: [
@@ -96,7 +93,7 @@ class PrimaryDrawer extends StatelessWidget {
               SizedBox(
                 width: width / 20,
               ),
-              Text(
+              const Text(
                 "معرفی به دوستان",
                 style: TextStyle(fontSize: 18),
               ),
@@ -107,7 +104,7 @@ class PrimaryDrawer extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.person_pin_circle_outlined,
                 size: 35,
                 shadows: [
@@ -120,18 +117,19 @@ class PrimaryDrawer extends StatelessWidget {
               SizedBox(
                 width: width / 20,
               ),
-              Text(
+              const Text(
                 "آدرس ها",
                 style: TextStyle(fontSize: 18),
               ),
             ],
           ),
         ),
+    
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.person_outline_sharp,
                 size: 35,
                 shadows: [
@@ -144,38 +142,11 @@ class PrimaryDrawer extends StatelessWidget {
               SizedBox(
                 width: width / 20,
               ),
-              Text(
+              const Text(
                 "پروفایل",
                 style: TextStyle(fontSize: 18),
               ),
             ],
-          ),
-        ),
-              Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterView(),)),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.exit_to_app,
-                  size: 35,
-                  shadows: [
-                    Shadow(
-                      color: Colors.black,
-                      blurRadius: 5,
-                    )
-                  ],
-                ),
-                SizedBox(
-                  width: width / 20,
-                ),
-                Text(
-                  "ثبت نام",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
           ),
         ),
       ],

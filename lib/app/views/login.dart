@@ -1,7 +1,8 @@
-import 'package:bama_fruit/app/models/login/login_entity.dart';
+import 'package:bama_fruit/app/models/auth/login_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
 import 'package:bama_fruit/app/views/home_view.dart';
-import 'package:bama_fruit/data/repositories/login_repository.dart';
+import 'package:bama_fruit/app/views/register_view.dart';
+import 'package:bama_fruit/data/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -26,25 +27,37 @@ class Login extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 15),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/logo5.png',
-                    width: 150,
-                    height: 90,
-                    fit: BoxFit.fill,
-                  ),
                   SizedBox(
                     height: height / 5,
                   ),
-                  const Center(
-                    child: Text(
-                      "ورود",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: ThemeColors.black),
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo5.png',
+                        width: 150,
+                        height: 90,
+                        fit: BoxFit.fill,
+                      ),
+                      const SizedBox(height: 15,),
+                     const Text(
+                        "خوش آمدید",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: ThemeColors.black),
+                      ),
+                       const SizedBox(height: 10,),
+                     const Text(
+                        "لطفا وارد حساب کاربری خود شوید",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: ThemeColors.black),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
@@ -61,15 +74,9 @@ class Login extends StatelessWidget {
                         ),
                         filled: true,
                         fillColor: ThemeColors.light,
-                        prefixIcon: InkWell(
-                          borderRadius: BorderRadius.circular(35),
-                          onTap: () {
-                            //TODO رفتن به صفحه جستجو برای نمایش محصول
-                          },
-                          child: const Icon(
-                            Icons.phone_android,
-                            color: Color.fromARGB(94, 0, 0, 0),
-                          ),
+                        prefixIcon: const Icon(
+                          Icons.phone_android,
+                          color: Color.fromARGB(94, 0, 0, 0),
                         ),
                         hintText: "شماره همراه خود را وارد کنید",
                         hintTextDirection: TextDirection.rtl),
@@ -77,94 +84,102 @@ class Login extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: _password,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: ThemeColors.blue,
-                              width: 1,
-                              style: BorderStyle.solid),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        filled: true,
-                        fillColor: ThemeColors.light,
-                        prefixIcon: InkWell(
-                          borderRadius: BorderRadius.circular(35),
-                          onTap: () {
-                            //TODO رفتن به صفحه جستجو برای نمایش محصول
-                          },
-                          child: const Icon(
-                            Icons.key,
-                            color: Color.fromARGB(94, 0, 0, 0),
-                          ),
-                        ),
-                        hintText: "کلمه عبور",
-                        hintTextDirection: TextDirection.rtl),
-                  ),
+                  _passwordTextFild(password: _password),
                   const SizedBox(
                     height: 10,
                   ),
                   Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.home),
-                          label: const Text(
-                            "بازگشت",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            LoginParameter loginParam = LoginParameter(
-                                userName: _userName.text,
-                                passwprd: _password.text);
-                            loginRepository
-                                .loginUser(param: loginParam)
-                                .then((value) {
-                              if (value.err == "401") {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    content: const Text('حساب کاربری یافت نشد'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'OK'),
-                                        child: const Text('تلاش مجدد'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HomeView(),
-                                    ));
-                              }
-                            });
-                          },
-                          icon: const Icon(Icons.login),
-                          label: const Text(
-                            "ورود به برنامه",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        LoginParameter loginParam = LoginParameter(
+                            userName: _userName.text, passwprd: _password.text);
+                        authRepository
+                            .login(loginParam)
+                            .then((value) {
+                        
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeView(),
+                                ));
+                          
+                        });
+                      },
+                      icon: const Icon(Icons.login),
+                      label: const Text(
+                        "ورود به برنامه",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RegisterView(),
+                                ));
+                          },
+                          child: Text(
+                            "ثبت نام",
+                            style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      Text("حساب کاربری ندارید؟"),
+                    ],
                   )
                 ],
               ),
             )),
       ),
+    );
+  }
+}
+
+class _passwordTextFild extends StatefulWidget {
+  const _passwordTextFild({
+    super.key,
+    required TextEditingController password,
+  }) : _password = password;
+
+  final TextEditingController _password;
+
+  @override
+  State<_passwordTextFild> createState() => _passwordTextFildState();
+}
+
+class _passwordTextFildState extends State<_passwordTextFild> {
+  bool obsecureText = true;
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget._password,
+      obscureText: obsecureText,
+      keyboardType: TextInputType.visiblePassword,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(
+                color: ThemeColors.blue, width: 1, style: BorderStyle.solid),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          filled: true,
+          fillColor: ThemeColors.light,
+          prefixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  obsecureText = !obsecureText;
+                });
+              },
+              icon: Icon(obsecureText
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined)),
+          hintText: "کلمه عبور",
+          hintTextDirection: TextDirection.rtl),
+      textDirection: TextDirection.rtl,
     );
   }
 }

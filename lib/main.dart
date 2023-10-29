@@ -1,15 +1,17 @@
 import 'package:bama_fruit/app/settings/theme_colors.dart';
 import 'package:bama_fruit/app/views/home_view.dart';
+import 'package:bama_fruit/data/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-
+  WidgetsFlutterBinding.ensureInitialized();
+   authRepository.loadAuthInfo();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  // This widget is the root of your application.
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

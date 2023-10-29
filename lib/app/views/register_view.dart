@@ -1,6 +1,6 @@
 import 'package:bama_fruit/app/settings/theme_colors.dart';
 import 'package:bama_fruit/app/views/activation_account_view.dart';
-import 'package:bama_fruit/data/repositories/register_repository.dart';
+import 'package:bama_fruit/data/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatefulWidget {
@@ -88,8 +88,8 @@ class _RegisterViewState extends State<RegisterView> {
                       width: width / 2,
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          registerRepository
-                              .registerUser(userName: _userName.text)
+                          authRepository
+                              .register(_userName.text)
                               .then((value) {
                             setState(() {
                               userName = value['number']!;

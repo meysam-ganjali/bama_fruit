@@ -1,6 +1,9 @@
 
-import 'package:bama_fruit/app/models/home/product_entity.dart';
+import 'package:bama_fruit/app/models/product/product_entity.dart';
 import 'package:bama_fruit/app/settings/theme_colors.dart';
+import 'package:bama_fruit/app/views/login.dart';
+import 'package:bama_fruit/data/repositories/auth_repository.dart';
+import 'package:bama_fruit/data/repositories/cart_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -182,7 +185,14 @@ class DailyProductOffer extends StatelessWidget {
                                 ),
                               ),
                         ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () async{
+                             if(AuthRepository.authChangeNotifier.value != null){
+                                final cartResponce = await cartRepository.addItem(products[index].id);
+                                print(cartResponce);
+                              }else{
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
+                              }
+                          },
                           icon: const Icon(
                               CupertinoIcons.shopping_cart),
                           label: const Text("افزودن به سبد"),
